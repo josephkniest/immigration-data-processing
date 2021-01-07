@@ -5,6 +5,7 @@ import json
 import datetime
 import math
 import csv
+from datetime import date, timedelta
 def create_tables(conn):
     """create_tables
     Creates the airports and visitors tables
@@ -26,7 +27,7 @@ def create_tables(conn):
 
     cur.execute("drop table if exists visitors")
     cur.execute("""
-        create table if not exists visitors (
+        create table if not exists visits (
             visit_id SERIAL primary key,
             port varchar(8) not null,
             arrival_date varchar(16) not null,
@@ -76,8 +77,8 @@ def dateTimeFromDaysSince1960(daysSince1960):
     input is the number of elpased days since the 1st of Jan, 1960
     """
     start = date(1960, 1, 1)
-    delta = timedelta(daysSince1960)
-    return (start + delta).str()
+    delta = timedelta(int(daysSince1960[:-2]))
+    return (start + delta).strftime('%m/%d/%Y')
 
 def process_visitors(conn):
     """process_visitors
@@ -87,7 +88,7 @@ def process_visitors(conn):
     """
     cur = conn.cursor()
     travel_modes = {"1.0": "Air", "2.0": "Sea", "3.0": "Land", "9.0": "Not reported"}
-    travel_purposes = {"1": "Business", "2": "Pleasure", "3": "Student"}
+    travel_purposes = {"1.0": "Business", "2.0": "Pleasure", "3.0": "Student"}
     with open("./immigration_data_sample.csv", newline="") as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         next(reader)
