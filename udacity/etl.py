@@ -29,17 +29,16 @@ def create_tables(conn):
     cur.execute("""
         create table if not exists visits (
             visit_id SERIAL primary key,
-            port varchar(8) not null,
+            port varchar(4) not null,
             arrival_date varchar(16) not null,
             depart_date varchar(16) not null,
             resident_state varchar(2) not null,
-            travel_mode varchar(4) not null,
+            travel_mode varchar(16) not null,
             age int not null,
             travel_purpose varchar(16) not null,
             gender varchar(1) not null,
             airline varchar(4),
-            visa varchar(4) not null,
-            foreign key(airline) references airports(id)
+            visa varchar(4) not null
         )
     """)
 
@@ -76,6 +75,9 @@ def dateTimeFromDaysSince1960(daysSince1960):
     Get a datetime object representing the current date where the
     input is the number of elpased days since the 1st of Jan, 1960
     """
+    if not daysSince1960:
+        return ""
+
     start = date(1960, 1, 1)
     delta = timedelta(int(daysSince1960[:-2]))
     return (start + delta).strftime('%m/%d/%Y')
