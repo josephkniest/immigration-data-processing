@@ -70,6 +70,37 @@ def process_airports(conn):
             cur.execute(sql)
 
 
+def dateTimeFromDaysSince1960(daysSince1960):
+    """dateTimeFromDaysSince1960
+    Get a datetime object representing the current date where the
+    input is the number of elpased days since the 1st of Jan, 1960
+    """
+    start = date(1960, 1, 1)
+    delta = timedelta(daysSince1960)
+    return (start + delta).str()
+
+def process_visitors(conn):
+    """process_visitors
+    Opens the immigration visits file and loads records into visits table
+    Parameters:
+     - conn: (connection object) - Postgres db connection
+    """
+    cur = conn.cursor()
+
+    with open("./immigration_data_sample.csv", newline="") as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        next(reader)
+        for row in reader:
+            print(row)
+            port = row[6]
+            arrival_date = dateTimeFromDaysSince1960(row[7])
+            depart_date = dateTimeFromDaysSince1960(row[10])
+            resident_state = row[9]
+            travel_mode = 
+            sql = """
+                insert into visits (port, arrival_date, depart_date, resident_state, travel_mode, age, travel_purpose, gender, airline, visa)
+                values ('{}', '{}', '{}', '{}', '{}', {}, '{}', '{}', '{}', '{}')
+            """
 
 def main():
 
@@ -92,7 +123,7 @@ def main():
 
     create_tables(conn)
     process_airports(conn)
-    #process_visitors(conn)    
+    process_visitors(conn)
 
     conn.close()
 
