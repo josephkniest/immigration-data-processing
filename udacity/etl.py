@@ -86,7 +86,8 @@ def process_visitors(conn):
      - conn: (connection object) - Postgres db connection
     """
     cur = conn.cursor()
-
+    travel_modes = {"1.0": "Air", "2.0": "Sea", "3.0": "Land", "9.0": "Not reported"}
+    travel_purposes = {"1": "Business", "2": "Pleasure", "3": "Student"}
     with open("./immigration_data_sample.csv", newline="") as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         next(reader)
@@ -96,11 +97,18 @@ def process_visitors(conn):
             arrival_date = dateTimeFromDaysSince1960(row[7])
             depart_date = dateTimeFromDaysSince1960(row[10])
             resident_state = row[9]
-            travel_mode = 
+            travel_mode = travel_modes[row[8]]
+            age = row[11]
+            travel_purpose = travel_purposes[row[12]]
+            gender = row[23]
+            airline = row[25]
+            visa = row[28]
             sql = """
                 insert into visits (port, arrival_date, depart_date, resident_state, travel_mode, age, travel_purpose, gender, airline, visa)
                 values ('{}', '{}', '{}', '{}', '{}', {}, '{}', '{}', '{}', '{}')
-            """
+            """.format(port, arrival_date, depart_date, resident_state, travel_mode, age, travel_purpose, gender, airline, visa)
+            print(sql)
+            cur.execute(sql)
 
 def main():
 
