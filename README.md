@@ -15,6 +15,15 @@ etl. The schema for the tables are described below but the columns are designed 
 and make the raw data from the csv more holistic and much easier to understand, especially
 someone who is looking at the data for the first time.
 
+## Justification for the tools and techniques used
+
+This is a fairly straightforward ETL. Python is probably the simplist platform to write
+programs for, so it was used to compose said ETL with little overhead.
+
+Since the data is not vast, a single local postgres instance is used to store the data.
+Of course if the data were to become immense over time the storage medium would need
+to be revisited. See the end section for more information on that.
+
 #### Step 1: Scope the Project and Gather Data
 
 The raw data came from the customs law enforcement agency. It is in the form of a csv file
