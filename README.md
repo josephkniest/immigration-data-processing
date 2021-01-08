@@ -38,6 +38,12 @@ into said tables. Columns will be processed as per the above column description
 
 Execute with ```python3 ./etl.py```
 
+## Data quality
+
+To verify that the database does indeed contain data, run the following:
+
+```python3 ./data-quality.py```
+
 ## Docker image
 
 There's a docker image with the necessary instrumentation baked in (postgres, python 3)
@@ -47,3 +53,4 @@ There's a docker image with the necessary instrumentation baked in (postgres, py
 2) Generate a new image with ```build.sh```
 
 3) Fire up and get a bash session inside the container with ```run.sh```
+
