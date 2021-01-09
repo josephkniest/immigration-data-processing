@@ -60,27 +60,27 @@ Both the default database name and postgres root user name are "postgres"
 
 Connect locally thereto with ```psql postgresql://postgres:postgres@127.0.0.1/immigration```
 
-#### Schema
+#### Schema and data dictionary
 
 visits: This table is the fact table that contains each i94 arrival through customs
-  - visit_id: The serial ID of the visit instance
-  - port: Port of entry's international port code (i94port)
-  - arrival_date: arrival timestamp (arrdate) - Source is number of days since 1/1/1960
-  - depart_date: departure timestamp (depdate) - Source is number of days since 1/1/1960
-  - resident_state: The state code in which the traveler dwelled e.g. CA (i94addr)
-  - travel_mode: The visitor's travel mode, e.g. "Air", "Sea", "Land" (i94mode)
-  - age: Age of the visitor (i94bir)
-  - travel_purpose: Purpose of travel, "Business", "Pleasure", "Student" (i94visa)
-  - gender: Gender of the visitor (gendor)
-  - airline: Code of the visitor' airline, if they travled by air (airline)
-  - visa: Visa code of the entry visa used by the visitor (visatype)
+  - visit_id: The serial ID of the visit instance (int)
+  - port: Port of entry's international port code (varchar(4))
+  - arrival_date: arrival timestamp (varchar(16)) - Source is number of days since 1/1/1960
+  - depart_date: departure timestamp (varchar(16)) - Source is number of days since 1/1/1960
+  - resident_state: The state code in which the traveler dwelled e.g. CA (varchar(2))
+  - travel_mode: The visitor's travel mode, e.g. "Air", "Sea", "Land" (varchar(16))
+  - age: Age of the visitor (int)
+  - travel_purpose: Purpose of travel, "Business", "Pleasure", "Student" (varchar(16))
+  - gender: Gender of the visitor (varchar(1))
+  - airline: Code of the visitor' airline, if they travled by air (varchar(4))
+  - visa: Visa code of the entry visa used by the visitor (varchar(4))
 
 airports: This table contains a list of US airports
-  - id: The unique international airport code e.g. LAX (iso_region) Need to strip off the "US-"
-  - name: Name of the airport (name)
-  - elevation_ft: Elevation in feet above sea level of the airport (elevation_ft)
-  - type: Type of airport, e.g. hellipad (type)
-  - coordinates: Latitude and longitude of the airport (lat, lon)
+  - id: The unique international airport code e.g. LAX (varchar(4)) Need to strip off the "US-"
+  - name: Name of the airport (varchar(192))
+  - elevation_ft: Elevation in feet above sea level of the airport (int)
+  - type: Type of airport, e.g. hellipad (varchar(64))
+  - coordinates: Latitude and longitude of the airport (varchar(128))
 
 #### Usage
 
